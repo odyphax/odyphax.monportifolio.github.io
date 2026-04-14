@@ -1,1 +1,154 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Simulation Passage en Caisse</title>
+    <style>
+        /* Style général de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Titre principal */
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Conteneur central */
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style des labels et inputs */
+        label,
+        input {
+            display: block;
+            margin: 10px 0;
+        }
+
+        /* Champ de saisie pour les nombres */
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Bouton principal */
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Effet au survol */
+        button:hover {
+            background: #218838;
+        }
+
+        /* Zone d'affichage du résultat */
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #444;
+            white-space: pre-line;
+            /* Permet d'afficher les retours à la ligne */
+        }
+
+        h1 {
+
+            background: rgb(129, 88, 88);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Passage en Caisse</h1>
+    <div class="container">
+        <!-- Champ pour entrer le nombre d'articles -->
+        <label for="nbArticles">Nombre d'articles :</label>
+        <input type="number" id="nbArticles" min="1" placeholder="Injiza igiharuro guhera kuri 1">
+
+        <!-- Bouton pour valider le nombre d'articles -->
+        <button onclick="demanderPrix()">Valider</button>
+
+        <!-- Zone où seront générés les champs de prix -->
+        <div id="prixInputs"></div>
+
+        <!-- Bouton pour calculer le montant total -->
+        <button id="calculerBtn" style="display:none;" onclick="calculerTotal()">Calculer le montant</button>
+
+        <!-- Zone d'affichage du résultat -->
+        <h6><em>Odyphax BUFEFE, Actuellement en Formation Frontend Chez Hogi Academy</em></h6>
+        <div class="result" id="resultat"></div>
+    </div>
+
+    <script>
+        // Fonction qui génère les champs de saisie des prix
+        function demanderPrix() {
+            const nb = parseInt(document.getElementById("nbArticles").value); // Récupère le nombre d'articles
+            const prixInputsDiv = document.getElementById("prixInputs"); // Zone où insérer les champs
+            prixInputsDiv.innerHTML = ""; // Réinitialise la zone
+
+            // Vérification que le nombre est valide
+            if (isNaN(nb) || nb <= 0) {
+                alert(" Hmmm Injiza igiharuro kiri hejuru y'ubusa.");
+                return;
+            }
+
+            // Génère autant de champs que d'articles
+            for (let i = 1; i <= nb; i++) {
+                prixInputsDiv.innerHTML += `
+          <label for="prix${i}">Prix de l'article ${i} :</label>
+          <input type="number" id="prix${i}" min="1" placeholder="Prix en Fbu">
+        `;
+            }
+
+            // Affiche le bouton de calcul
+            document.getElementById("calculerBtn").style.display = "inline-block";
+        }
+
+        // Fonction qui calcule le montant total et applique la réduction
+        function calculerTotal() {
+            const nb = parseInt(document.getElementById("nbArticles").value); // Nombre d'articles
+            let total = 0; // Initialisation du total
+
+            // Boucle sur chaque article pour additionner les prix
+            for (let i = 1; i <= nb; i++) {
+                const prix = parseFloat(document.getElementById("prix" + i).value); // Récupère le prix
+                if (isNaN(prix) || prix <= 0) {
+                    alert("Le prix de l'article " + i + " doit être supérieur à 0.");
+                    return; // Arrête le calcul si un prix est invalide
+                }
+                total += prix; // Ajoute le prix au total
+            }
+
+            let montantFinal = total; // Montant final par défaut
+
+            // Vérifie si le total dépasse 100 000 Fbu
+            if (total > 100000) {
+                montantFinal = total * 0.9; // Applique une réduction de 10%
+            }
+
+            // Affiche le résultat
+            document.getElementById("resultat").innerText =
+                "Montant total: " + total + " Fbu\nMontant final à payer: " + montantFinal + " Fbu";
+        }
+    </script>
+</body>
+
+</html>
